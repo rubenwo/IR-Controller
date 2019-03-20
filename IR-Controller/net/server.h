@@ -13,5 +13,7 @@ int init_server(void);
 
 int run_server(void);
 
+int interrupt_server(char* flag);
+
 
 #endif /* SERVER_H_ */

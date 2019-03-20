@@ -24,4 +24,7 @@ typedef struct{
 }Request;
 
 
+int process_request(Request* req);
+
+
 #endif /* API_H_ */

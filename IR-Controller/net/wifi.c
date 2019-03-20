@@ -5,14 +5,14 @@
 *  Author: Ruben
 */
 
-int init_wifi(char* SSID, char* username, char* password){
-	
+int init_wifi(char* SSID,  char* password){
+	return 0;
 }
 
 int receive(char* buffer){
-	
+	return 0;
 }
 
 int transmit(char* addr, int port, char* data){
-	
+	return 0;
 }
