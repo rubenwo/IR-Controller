@@ -9,8 +9,19 @@
 #ifndef API_H_
 #define API_H_
 
+typedef enum{
+	Perform_Command = 0,
+	Get_Encoding = 1
+}M_Type;
 
+typedef struct{
+	// TODO: Add Olaf's encoding table
+}Encoding_Response;
 
+typedef struct{
+	M_Type msg_type;
+	char* body;
+}Request;
 
 
 #endif /* API_H_ */
