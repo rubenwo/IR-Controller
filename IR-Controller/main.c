@@ -6,13 +6,16 @@
 */
 
 #include <avr/io.h>
+#include "IRsender/sender.h"
 
+#define F_CPU 16000000
 
 int main(void)
 {
 	/* Replace with your application code */
 	while (1)
 	{
+		sender_sendIRSignal(0);
 	}
 }
 
