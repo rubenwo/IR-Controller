@@ -122,42 +122,6 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="api_server.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="api_server.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="http.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="http.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="ir_emitter.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="ir_emitter.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="ir_pattern_learner.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="ir_pattern_learner.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="ir_receiver.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="ir_receiver.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="lcd.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="lcd.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
