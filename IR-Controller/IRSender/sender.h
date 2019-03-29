@@ -8,7 +8,9 @@
 #ifndef SENDER_H_
 #define SENDER_H_
 
-void sender_sendIRSignal(int);
+#include "memory.h"
+
+void sender_sendIRSignal(int, int);
 
 
 #endif /* SENDER_H_ */

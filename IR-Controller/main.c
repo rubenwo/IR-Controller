@@ -6,16 +6,20 @@
 */
 
 #include <avr/io.h>
+#include <util/delay.h>
+#include <time.h>
 #include "IRsender/sender.h"
+#include "IRSender/memory.h"
 
-#define F_CPU 16000000
+#define F_CPU 16000000UL
 
 int main(void)
 {
 	/* Replace with your application code */
 	while (1)
 	{
-		sender_sendIRSignal(0);
+		sender_sendIRSignal(0, 0);
+		_delay_ms(2000);
 	}
 }
 
