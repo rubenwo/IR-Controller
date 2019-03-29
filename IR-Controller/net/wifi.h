@@ -11,11 +11,11 @@
 
 int init_esp8266();
 /*
-init_wifi is used to initialize a connection with a WiFi AP.
+init_esp8266_wifi is used to initialize a connection with a WiFi AP.
 @param SSID is the SSID of the WiFi AP.
 @param password is the password for the WiFi AP
 */
-int init_wifi(char* SSID, char* password);
+int init_esp8266_wifi(char* SSID,  char* password);
 
 
 int init_esp8266_server();

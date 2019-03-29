@@ -153,9 +153,16 @@
     <Compile Include="net\wifi.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="utils\debug_util.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="utils\debug_util.h">
+      <SubType>compile</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="net" />
+    <Folder Include="utils" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>
