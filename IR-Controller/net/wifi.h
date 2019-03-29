@@ -9,12 +9,21 @@
 #ifndef WIFI_H_
 #define WIFI_H_
 
+int init_esp8266();
 /*
 init_wifi is used to initialize a connection with a WiFi AP.
 @param SSID is the SSID of the WiFi AP.
 @param password is the password for the WiFi AP
 */
 int init_wifi(char* SSID, char* password);
+
+
+int init_esp8266_server();
+
+int init_esp8266_client();
+
+
+int esp8266_on_event();
 
 /*
 receive is used to receive data from a connection.
@@ -24,7 +33,7 @@ int receive(char* buffer);
 
 /*
 transmit is used to send data to a connection.
-@param addr is a the ip-address of the client.
+@param addr is a the IP-address of the client.
 @param port is the port of the client.
 @param data is the
 */

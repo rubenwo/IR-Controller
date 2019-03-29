@@ -4,32 +4,38 @@
 * Created: 3/20/2019 11:10:12 AM
 * Author : Ruben
 */
-
-#define F_CPU 16000000
+#define F_CPU 16000000UL
 
 #include <avr/io.h>
 #include <util/delay.h>
-
+#include <avr/interrupt.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <util/delay.h>
+#include <avr/interrupt.h>
 #include "net/server.h"
-#include "net/wifi.h"
 
 
-int main(void)
+int main( void )
 {
-	init_wifi("...", "...");
-	init_server();
-	
+	sei();
+	//_delay_ms(1000);
 	DDRB = 0b00111111;
 	DDRD = 0b11111100;
+	init_server();
 
-	while (1)
+	while( 1 )
 	{
 		PORTB = 0b00111111;
 		PORTD = 0b11111100;
 		_delay_ms(500);
-		PORTB = 0b00000000;
-		PORTD = 0b00000000;
+		PORTB=0b00000000;
+		PORTD=0b00000000;
 		_delay_ms(500);
 	}
+
+	return 0;
 }
+
 
