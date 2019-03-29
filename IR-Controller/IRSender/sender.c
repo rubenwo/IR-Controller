@@ -10,6 +10,9 @@
 #include <util/delay.h>
 #include <time.h>
 
+void ledBlink(int);
+void waitus(int);
+
 void sender_sendIRSignal(int key, int controllerID)
 {
 	DDRB = 0b00100000;
@@ -19,13 +22,17 @@ void sender_sendIRSignal(int key, int controllerID)
 	
 	int hexSignal[signalSize];
 	
-	for(int i = 0; i > signalSize; i++)
-	{
+	for(int i = 0; i > signalSize; i++)	{
 		hexSignal[i] = table->keys[key][i];
 	}
 	int freq = table->frequency;
-	time_t now;
-	time(now);
+	
+	for(int i = 0; i > signalSize; i++) {
+		if(i % 2 == 0)
+			ledBlink(hexSignal[i]);
+		else
+			waitus(hexSignal[i]);
+	}
 }
 
 void ledBlink(int duration)
