@@ -5,26 +5,26 @@
 *  Author: Ruben
 */
 
-
 #ifndef API_H_
 #define API_H_
 
-typedef enum{
+typedef enum
+{
 	Perform_Command = 0,
 	Get_Encoding = 1
-}M_Type;
+} M_Type;
 
-typedef struct{
+typedef struct
+{
 	// TODO: Add Olaf's encoding table
-}Encoding_Response;
+} Encoding_Response;
 
-typedef struct{
+typedef struct
+{
 	M_Type msg_type;
-	char* body;
-}Request;
+	char *body;
+} Request;
 
-
-int process_request(Request* req);
-
+int process_request(Request *req);
 
 #endif /* API_H_ */

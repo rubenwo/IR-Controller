@@ -5,12 +5,9 @@
 *  Author: diabl
 */
 
-
 #ifndef DEBUG_UTIL_H_
 #define DEBUG_UTIL_H_
 
 void blink_onboard();
-
-
 
 #endif /* DEBUG_UTIL_H_ */

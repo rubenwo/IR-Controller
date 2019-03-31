@@ -5,7 +5,6 @@
 *  Author: Ruben
 */
 
-
 #ifndef JSONPARSER_H_
 #define JSONPARSER_H_
 
@@ -49,9 +48,9 @@ typedef struct
 	int start;
 	int end;
 	int size;
-	#ifdef JSN_PARENT_LINKS
+#ifdef JSN_PARENT_LINKS
 	int parent;
-	#endif
+#endif
 } jsntok_t;
 
 /**
@@ -60,9 +59,9 @@ typedef struct
 */
 typedef struct
 {
-	unsigned int pos;     /* offset in the JSON string */
+	unsigned int pos;	 /* offset in the JSON string */
 	unsigned int toknext; /* next token to allocate */
-	int toksuper;         /* superior token node, e.g parent object or array */
+	int toksuper;		  /* superior token node, e.g parent object or array */
 } jsn_parser;
 
 /**
@@ -75,8 +74,6 @@ void jsn_init(jsn_parser *parser);
 * a single JSON object.
 */
 int jsn_parse(jsn_parser *parser, const char *js, size_t len,
-jsntok_t *tokens, unsigned int num_tokens);
-
-
+			  jsntok_t *tokens, unsigned int num_tokens);
 
 #endif /* JSONPARSER_H_ */

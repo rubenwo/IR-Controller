@@ -5,13 +5,12 @@
 *  Author: Ruben
 */
 
-
 #include "json_parser.h"
 /**
 * Allocates a fresh unused token from the token pool.
 */
 static jsntok_t *jsn_alloc_token(jsn_parser *parser,
-jsntok_t *tokens, size_t num_tokens)
+								 jsntok_t *tokens, size_t num_tokens)
 {
 	jsntok_t *tok;
 	if (parser->toknext >= num_tokens)
@@ -21,9 +20,9 @@ jsntok_t *tokens, size_t num_tokens)
 	tok = &tokens[parser->toknext++];
 	tok->start = tok->end = -1;
 	tok->size = 0;
-	#ifdef JSN_PARENT_LINKS
+#ifdef JSN_PARENT_LINKS
 	tok->parent = -1;
-	#endif
+#endif
 	return tok;
 }
 
@@ -31,7 +30,7 @@ jsntok_t *tokens, size_t num_tokens)
 * Fills token type and boundaries.
 */
 static void jsn_fill_token(jsntok_t *token, jsntype_t type,
-int start, int end)
+						   int start, int end)
 {
 	token->type = type;
 	token->start = start;
@@ -43,7 +42,7 @@ int start, int end)
 * Fills next available token with JSON primitive.
 */
 static int jsn_parse_primitive(jsn_parser *parser, const char *js,
-size_t len, jsntok_t *tokens, size_t num_tokens)
+							   size_t len, jsntok_t *tokens, size_t num_tokens)
 {
 	jsntok_t *token;
 	int start;
@@ -54,56 +53,56 @@ size_t len, jsntok_t *tokens, size_t num_tokens)
 	{
 		switch (js[parser->pos])
 		{
-			#ifndef JSN_STRICT
-			/* In strict mode primitive must be followed by "," or "}" or "]" */
-			case ':':
-			#endif
-			case '\t':
-			case '\r':
-			case '\n':
-			case ' ':
-			case ',':
-			case ']':
+#ifndef JSN_STRICT
+		/* In strict mode primitive must be followed by "," or "}" or "]" */
+		case ':':
+#endif
+		case '\t':
+		case '\r':
+		case '\n':
+		case ' ':
+		case ',':
+		case ']':
 		case '}':
-		goto found;
+			goto found;
+		}
+		if (js[parser->pos] < 32 || js[parser->pos] >= 127)
+		{
+			parser->pos = start;
+			return JSN_ERROR_INVAL;
+		}
 	}
-	if (js[parser->pos] < 32 || js[parser->pos] >= 127)
-	{
-		parser->pos = start;
-		return JSN_ERROR_INVAL;
-	}
-}
 #ifdef JSN_STRICT
-/* In strict mode primitive must be followed by a comma/object/array */
-parser->pos = start;
-return JSN_ERROR_PART;
+	/* In strict mode primitive must be followed by a comma/object/array */
+	parser->pos = start;
+	return JSN_ERROR_PART;
 #endif
 
 found:
-if (tokens == NULL)
-{
+	if (tokens == NULL)
+	{
+		parser->pos--;
+		return 0;
+	}
+	token = jsn_alloc_token(parser, tokens, num_tokens);
+	if (token == NULL)
+	{
+		parser->pos = start;
+		return JSN_ERROR_NOMEM;
+	}
+	jsn_fill_token(token, JSN_PRIMITIVE, start, parser->pos);
+#ifdef JSN_PARENT_LINKS
+	token->parent = parser->toksuper;
+#endif
 	parser->pos--;
 	return 0;
-}
-token = jsn_alloc_token(parser, tokens, num_tokens);
-if (token == NULL)
-{
-	parser->pos = start;
-	return JSN_ERROR_NOMEM;
-}
-jsn_fill_token(token, JSN_PRIMITIVE, start, parser->pos);
-#ifdef JSN_PARENT_LINKS
-token->parent = parser->toksuper;
-#endif
-parser->pos--;
-return 0;
 }
 
 /**
 * Fills next token with JSON string.
 */
 static int jsn_parse_string(jsn_parser *parser, const char *js,
-size_t len, jsntok_t *tokens, size_t num_tokens)
+							size_t len, jsntok_t *tokens, size_t num_tokens)
 {
 	jsntok_t *token;
 
@@ -130,9 +129,9 @@ size_t len, jsntok_t *tokens, size_t num_tokens)
 				return JSN_ERROR_NOMEM;
 			}
 			jsn_fill_token(token, JSN_STRING, start + 1, parser->pos);
-			#ifdef JSN_PARENT_LINKS
+#ifdef JSN_PARENT_LINKS
 			token->parent = parser->toksuper;
-			#endif
+#endif
 			return 0;
 		}
 
@@ -143,25 +142,25 @@ size_t len, jsntok_t *tokens, size_t num_tokens)
 			parser->pos++;
 			switch (js[parser->pos])
 			{
-				/* Allowed escaped symbols */
-				case '\"':
-				case '/':
-				case '\\':
-				case 'b':
-				case 'f':
-				case 'r':
-				case 'n':
-				case 't':
+			/* Allowed escaped symbols */
+			case '\"':
+			case '/':
+			case '\\':
+			case 'b':
+			case 'f':
+			case 'r':
+			case 'n':
+			case 't':
 				break;
-				/* Allows escaped symbol \uXXXX */
-				case 'u':
+			/* Allows escaped symbol \uXXXX */
+			case 'u':
 				parser->pos++;
 				for (i = 0; i < 4 && parser->pos < len && js[parser->pos] != '\0'; i++)
 				{
 					/* If it isn't a hex character we have an error */
 					if (!((js[parser->pos] >= 48 && js[parser->pos] <= 57) || /* 0-9 */
-					(js[parser->pos] >= 65 && js[parser->pos] <= 70) || /* A-F */
-					(js[parser->pos] >= 97 && js[parser->pos] <= 102)))
+						  (js[parser->pos] >= 65 && js[parser->pos] <= 70) || /* A-F */
+						  (js[parser->pos] >= 97 && js[parser->pos] <= 102)))
 					{ /* a-f */
 						parser->pos = start;
 						return JSN_ERROR_INVAL;
@@ -170,8 +169,8 @@ size_t len, jsntok_t *tokens, size_t num_tokens)
 				}
 				parser->pos--;
 				break;
-				/* Unexpected symbol */
-				default:
+			/* Unexpected symbol */
+			default:
 				parser->pos = start;
 				return JSN_ERROR_INVAL;
 			}
@@ -185,7 +184,7 @@ size_t len, jsntok_t *tokens, size_t num_tokens)
 * Parse JSON string and fill tokens.
 */
 int jsn_parse(jsn_parser *parser, const char *js, size_t len,
-jsntok_t *tokens, unsigned int num_tokens)
+			  jsntok_t *tokens, unsigned int num_tokens)
 {
 	int r;
 	int i;
@@ -200,33 +199,33 @@ jsntok_t *tokens, unsigned int num_tokens)
 		c = js[parser->pos];
 		switch (c)
 		{
-			case '{':
-				case '[':
-				count++;
-				if (tokens == NULL)
-				{
-					break;
-				}
-				token = jsn_alloc_token(parser, tokens, num_tokens);
-				if (token == NULL)
+		case '{':
+		case '[':
+			count++;
+			if (tokens == NULL)
+			{
+				break;
+			}
+			token = jsn_alloc_token(parser, tokens, num_tokens);
+			if (token == NULL)
 				return JSN_ERROR_NOMEM;
-				if (parser->toksuper != -1)
-				{
-					tokens[parser->toksuper].size++;
-					#ifdef JSN_PARENT_LINKS
-					token->parent = parser->toksuper;
-					#endif
-				}
-				token->type = (c == '{' ? JSN_OBJECT : JSN_ARRAY);
-					token->start = parser->pos;
-					parser->toksuper = parser->toknext - 1;
-					break;
-				case '}':
-				case ']':
-				if (tokens == NULL)
+			if (parser->toksuper != -1)
+			{
+				tokens[parser->toksuper].size++;
+#ifdef JSN_PARENT_LINKS
+				token->parent = parser->toksuper;
+#endif
+			}
+			token->type = (c == '{' ? JSN_OBJECT : JSN_ARRAY);
+			token->start = parser->pos;
+			parser->toksuper = parser->toknext - 1;
+			break;
+		case '}':
+		case ']':
+			if (tokens == NULL)
 				break;
 			type = (c == '}' ? JSN_OBJECT : JSN_ARRAY);
-			#ifdef JSN_PARENT_LINKS
+#ifdef JSN_PARENT_LINKS
 			if (parser->toknext < 1)
 			{
 				return JSN_ERROR_INVAL;
@@ -254,7 +253,7 @@ jsntok_t *tokens, unsigned int num_tokens)
 				}
 				token = &tokens[token->parent];
 			}
-			#else
+#else
 			for (i = parser->toknext - 1; i >= 0; i--)
 			{
 				token = &tokens[i];
@@ -271,7 +270,7 @@ jsntok_t *tokens, unsigned int num_tokens)
 			}
 			/* Error if unmatched closing bracket */
 			if (i == -1)
-			return JSN_ERROR_INVAL;
+				return JSN_ERROR_INVAL;
 			for (; i >= 0; i--)
 			{
 				token = &tokens[i];
@@ -281,32 +280,32 @@ jsntok_t *tokens, unsigned int num_tokens)
 					break;
 				}
 			}
-			#endif
+#endif
 			break;
-			case '\"':
+		case '\"':
 			r = jsn_parse_string(parser, js, len, tokens, num_tokens);
 			if (r < 0)
-			return r;
+				return r;
 			count++;
 			if (parser->toksuper != -1 && tokens != NULL)
-			tokens[parser->toksuper].size++;
+				tokens[parser->toksuper].size++;
 			break;
-			case '\t':
-			case '\r':
-			case '\n':
-			case ' ':
+		case '\t':
+		case '\r':
+		case '\n':
+		case ' ':
 			break;
-			case ':':
+		case ':':
 			parser->toksuper = parser->toknext - 1;
 			break;
-			case ',':
+		case ',':
 			if (tokens != NULL && parser->toksuper != -1 &&
-			tokens[parser->toksuper].type != JSN_ARRAY &&
-			tokens[parser->toksuper].type != JSN_OBJECT)
+				tokens[parser->toksuper].type != JSN_ARRAY &&
+				tokens[parser->toksuper].type != JSN_OBJECT)
 			{
-				#ifdef JSN_PARENT_LINKS
+#ifdef JSN_PARENT_LINKS
 				parser->toksuper = tokens[parser->toksuper].parent;
-				#else
+#else
 				for (i = parser->toknext - 1; i >= 0; i--)
 				{
 					if (tokens[i].type == JSN_ARRAY || tokens[i].type == JSN_OBJECT)
@@ -318,52 +317,52 @@ jsntok_t *tokens, unsigned int num_tokens)
 						}
 					}
 				}
-				#endif
+#endif
 			}
 			break;
-			#ifdef JSN_STRICT
-			/* In strict mode primitives are: numbers and booleans */
-			case '-':
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 't':
-			case 'f':
-			case 'n':
+#ifdef JSN_STRICT
+		/* In strict mode primitives are: numbers and booleans */
+		case '-':
+		case '0':
+		case '1':
+		case '2':
+		case '3':
+		case '4':
+		case '5':
+		case '6':
+		case '7':
+		case '8':
+		case '9':
+		case 't':
+		case 'f':
+		case 'n':
 			/* And they must not be keys of the object */
 			if (tokens != NULL && parser->toksuper != -1)
 			{
 				jsntok_t *t = &tokens[parser->toksuper];
 				if (t->type == JSN_OBJECT ||
-				(t->type == JSN_STRING && t->size != 0))
+					(t->type == JSN_STRING && t->size != 0))
 				{
 					return JSN_ERROR_INVAL;
 				}
 			}
-			#else
-			/* In non-strict mode every unquoted value is a primitive */
-			default:
-			#endif
+#else
+		/* In non-strict mode every unquoted value is a primitive */
+		default:
+#endif
 			r = jsn_parse_primitive(parser, js, len, tokens, num_tokens);
 			if (r < 0)
-			return r;
+				return r;
 			count++;
 			if (parser->toksuper != -1 && tokens != NULL)
-			tokens[parser->toksuper].size++;
+				tokens[parser->toksuper].size++;
 			break;
 
-			#ifdef JSN_STRICT
-			/* Unexpected char in strict mode */
-			default:
+#ifdef JSN_STRICT
+		/* Unexpected char in strict mode */
+		default:
 			return JSN_ERROR_INVAL;
-			#endif
+#endif
 		}
 	}
 
