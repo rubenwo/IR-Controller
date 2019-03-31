@@ -7,12 +7,22 @@
 #define F_CPU 16000000UL
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <avr/pgmspace.h>
+#include <inttypes.h>
 #include <util/delay.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include "lcd_lib.h"
+
+
 int main()
 {
+	uint8_t tekst = "Test";
+	LCDinit();
+	LCDclr();
+	printf("Ga slapen");
 	
+
     /* Set PB5 to output */
 	
 	//while(1){
@@ -33,25 +43,25 @@ int main()
 	//}
     //return 0;
 	
-	DDRC = 0x00;
-	DDRD = 0xFF;
-	ADCSRA = 0b10000000;
-	ADMUX = 0b01100001;
-	int now = 2;
-	while(1){
-		ADCSRA |= (1<<ADSC);
-		while((ADCSRA & (1<< ADIF)) == 0){
-		int temp = ADC;
-		if(temp != now){
-			PORTD ^= (1<<PD5);
-			int i;
-			for(i =0; i<1000; i++)
-				_delay_ms(1);
-			PORTD ^= (1<<PD5);
-			now = temp;
-		}
-		}
-		
-	}
+	//DDRC = 0x00;
+	//DDRD = 0xFF;
+	//ADCSRA = 0b10000000;
+	//ADMUX = 0b01100001;
+	//int now = 2;
+	//while(1){
+		//ADCSRA |= (1<<ADSC);
+		//while((ADCSRA & (1<< ADIF)) == 0){
+		//int temp = ADC;
+		//if(temp != now){
+			//PORTD ^= (1<<PD5);
+			//int i;
+			//for(i =0; i<1000; i++)
+				//_delay_ms(1);
+			//PORTD ^= (1<<PD5);
+			//now = temp;
+		//}
+		//}
+		//}
+	
 }
 	
