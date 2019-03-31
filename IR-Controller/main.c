@@ -15,12 +15,60 @@
 #include "lcd_lib.h"
 
 
+int now = 2;
+int counter = 0;
+
 int main()
 {
+	DDRC = 0x00;
+	DDRD = 0xFF;
+	ADCSRA = 0b10000000;
+	ADMUX = 0b01100001;
 	uint8_t tekst = "Test";
 	LCDinit();
 	LCDclr();
-	printf("Ga slapen");
+	
+	
+		printf("Started..");
+		_delay_ms(1000);
+		LCDclr();
+		printf("Press btn 1");
+		searchirsignal();
+		LCDclr();
+		printf("press btn 2");
+		searchirsignal();
+		LCDclr();
+		printf("press btn 3");
+		searchirsignal();
+		LCDclr();
+		printf("press btn 4");
+		searchirsignal();
+		LCDclr();
+		printf("press btn 5");
+		searchirsignal();
+		LCDclr();
+		printf("press btn 6");
+		searchirsignal();
+		LCDclr();
+		printf("press btn 7");
+		searchirsignal();
+		LCDclr();
+		printf("press btn 8");
+		searchirsignal();
+		LCDclr();
+		printf("press btn 9");
+		searchirsignal();
+		printf("press btn 0");
+		LCDclr();
+		searchirsignal();
+		printf("press volume up");
+		searchirsignal();
+		LCDclr();
+		printf("press volume dwn");
+		searchirsignal();
+		LCDclr();
+		printf("Done :D");
+
 	
 
     /* Set PB5 to output */
@@ -42,26 +90,22 @@ int main()
 	//}
 	//}
     //return 0;
-	
-	//DDRC = 0x00;
-	//DDRD = 0xFF;
-	//ADCSRA = 0b10000000;
-	//ADMUX = 0b01100001;
-	//int now = 2;
-	//while(1){
-		//ADCSRA |= (1<<ADSC);
-		//while((ADCSRA & (1<< ADIF)) == 0){
-		//int temp = ADC;
-		//if(temp != now){
-			//PORTD ^= (1<<PD5);
-			//int i;
-			//for(i =0; i<1000; i++)
-				//_delay_ms(1);
-			//PORTD ^= (1<<PD5);
-			//now = temp;
-		//}
-		//}
-		//}
-	
+}
+
+void searchirsignal(){
+	while(1){
+		ADCSRA |= (1<<ADSC);
+		while((ADCSRA & (1<< ADIF)) == 0){
+			int temp = ADC;
+			if(temp != now){
+				PORTD ^= (1<<PD5);
+				int i;
+				for(i =0; i<1000; i++)
+				_delay_ms(1);
+				PORTD ^= (1<<PD5);
+				now = temp;
+			}
+		}
+	}
 }
 	
