@@ -120,6 +120,18 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="IRSender\memory.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="IRSender\memory.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="IRSender\sender.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="IRSender\sender.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="lcd_lib.c">
       <SubType>compile</SubType>
     </Compile>
