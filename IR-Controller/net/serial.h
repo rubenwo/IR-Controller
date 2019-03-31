@@ -8,13 +8,17 @@
 #ifndef SERIAL_H_
 #define SERIAL_H_
 
-// serial_init initialises a uart connection with the esp8266 wifi module.
+/*
+    serial_init initialises a uart connection with the esp8266 wifi module.
+*/ 
 int serial_init(void);
-// serial_begin starts the uart connection.
+/*
+    serial_begin starts the uart connection.
+*/ 
 int serial_begin(void);
 /*
-serial_write_char writes the given char to the esp8266
-@param ch - the character that should be written.
+    serial_write_char writes the given char to the esp8266
+    @param ch - the character that should be written.
 */
 int serial_write_char(char ch);
 /*

@@ -10,9 +10,9 @@
 
 int init_esp8266();
 /*
-init_esp8266_wifi is used to initialize a connection with a WiFi AP.
-@param SSID is the SSID of the WiFi AP.
-@param password is the password for the WiFi AP
+    init_esp8266_wifi is used to initialize a connection with a WiFi AP.
+    @param SSID is the SSID of the WiFi AP.
+    @param password is the password for the WiFi AP
 */
 int init_esp8266_wifi(char *SSID, char *password);
 
@@ -29,21 +29,21 @@ int init_esp8266_client(void);
 */
 int esp8266_on_event(void);
 /*
-esp8266_receive is used to receive data from a connection.
+    esp8266_receive is used to receive data from a connection.
 */
 char esp8266_receive(void);
 
 /*
-receive is used to receive data from a connection.
-@param buffer
+    receive is used to receive data from a connection.
+    @param buffer
 */
 int receive(char *buffer);
 
 /*
-transmit is used to send data to a connection.
-@param addr is a the IP-address of the client.
-@param port is the port of the client.
-@param data is the
+    transmit is used to send data to a connection.
+    @param addr is a the IP-address of the client.
+    @param port is the port of the client.
+    @param data is the
 */
 int transmit(char *addr, int port, char *data);
 
