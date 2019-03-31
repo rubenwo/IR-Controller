@@ -16,12 +16,21 @@ init_esp8266_wifi is used to initialize a connection with a WiFi AP.
 */
 int init_esp8266_wifi(char *SSID, char *password);
 
+/*
+    init_esp8266_server initializes the esp8266 module as a TCP/IP server using AT commands.
+*/
 int init_esp8266_server(void);
-
+/*
+    init_esp8266_client initializes the esp8266 module as a TCP/IP client using AT commands.
+*/
 int init_esp8266_client(void);
-
+/*
+    esp8266_on_event is the event handler for the esp8266. Gets called on an event in the esp8266.
+*/
 int esp8266_on_event(void);
-
+/*
+esp8266_receive is used to receive data from a connection.
+*/
 char esp8266_receive(void);
 
 /*
