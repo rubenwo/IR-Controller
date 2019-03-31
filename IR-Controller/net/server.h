@@ -10,5 +10,5 @@
 #define SERVER_H_
 
 int init_server(void);
-
+int update_server(void);
 #endif /* SERVER_H_ */

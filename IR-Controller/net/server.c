@@ -9,15 +9,26 @@
 #include "wifi.h"
 #include "api.h"
 #include "json_parser.h"
-
-char* flag = 0;
+#include "server.h"
 
 
 int init_server(void){
 	init_esp8266();
 	blink_onboard();
-	init_esp8266_wifi("HUAWEI P20 lite", "appel324");
+	init_esp8266_wifi("Exogenesis_2.4", "maanDag2018");
+	update_server();
 	blink_onboard();
 	init_esp8266_server();
+	update_server();
+	blink_onboard();
 	return 0;
+}
+
+int update_server(void){
+	char c = esp8266_receive();
+	if (c == 0){
+		return -1;
+	}
+	blink_onboard();
+	return c;
 }

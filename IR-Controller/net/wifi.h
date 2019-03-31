@@ -18,12 +18,14 @@ init_esp8266_wifi is used to initialize a connection with a WiFi AP.
 int init_esp8266_wifi(char* SSID,  char* password);
 
 
-int init_esp8266_server();
+int init_esp8266_server(void);
 
-int init_esp8266_client();
+int init_esp8266_client(void);
 
 
-int esp8266_on_event();
+int esp8266_on_event(void);
+
+char esp8266_receive(void);
 
 /*
 receive is used to receive data from a connection.
