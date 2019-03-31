@@ -15,7 +15,7 @@ int init_server(void)
 {
 	init_esp8266();
 	blink_onboard();
-	init_esp8266_wifi("Exogenesis_2.4", "maanDag2018");
+	init_esp8266_wifi("ssid", "password");
 	update_server();
 	blink_onboard();
 	init_esp8266_server();
