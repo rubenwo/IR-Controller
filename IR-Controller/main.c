@@ -17,6 +17,7 @@
 #include "net/server.h"
 #include "utils/debug_util.h"
 #include "net/serial.h"
+#define F_CPU 16000000UL
 
 int now = 2;
 int counter = 0;
