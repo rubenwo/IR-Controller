@@ -17,7 +17,6 @@
 #include "net/server.h"
 #include "utils/debug_util.h"
 #include "net/serial.h"
-#define F_CPU 16000000UL
 
 int now = 2;
 int counter = 0;
@@ -27,14 +26,14 @@ int main()
 	DDRC = 0x00;
 	DDRD = 0xFF;
 	ADCSRA = 0b10000000;
-	ADMUX = 0b01100001;
+	ADMUX = 0b011000010;
 	LCDinit();
 	LCDclr();
 
 	printf("Started..");
 	_delay_ms(1000);
 	LCDclr();
-	printf("Press btn 1");
+	printf("press btn 1");
 	searchirsignal();
 	LCDclr();
 	printf("press btn 2");
@@ -60,9 +59,10 @@ int main()
 	LCDclr();
 	printf("press btn 9");
 	searchirsignal();
-	printf("press btn 0");
 	LCDclr();
+	printf("press btn 0");
 	searchirsignal();
+	LCDclr();
 	printf("press volume up");
 	searchirsignal();
 	LCDclr();
@@ -85,21 +85,18 @@ int main()
 
 static void searchirsignal()
 {
-	while (1)
+	int signaal = 1;
+	while (signaal)
 	{
-		ADCSRA |= (1 << ADSC);
-		while ((ADCSRA & (1 << ADIF)) == 0)
-		{
-			int temp = ADC;
+			int temp = ADCH;
 			if (temp != now)
 			{
-				PORTD ^= (1 << PD5);
-				int i;
-				for (i = 0; i < 1000; i++)
-					_delay_ms(1);
-				PORTD ^= (1 << PD5);
+				_delay_ms(1000);
 				now = temp;
+				LCDclr();
+				printf("%d",temp);
+				signaal = 0;
+				break;
 			}
-		}
 	}
 }
