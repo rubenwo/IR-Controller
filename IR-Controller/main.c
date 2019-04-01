@@ -85,16 +85,20 @@ int main()
 
 static void searchirsignal()
 {
+	ADC = 0xff;
+	ACSR = 0x00;
 	int signaal = 1;
+	int temp = 0;
 	while (signaal)
 	{
-			int temp = ADCH;
+			
+			temp = ADC;
 			if (temp != now)
 			{
-				_delay_ms(1000);
 				now = temp;
 				LCDclr();
 				printf("%d",temp);
+				_delay_ms(1000);
 				signaal = 0;
 				break;
 			}
